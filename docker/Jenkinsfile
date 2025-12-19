@@ -10,7 +10,7 @@ pipeline {
         stage('Checkout Source') {
             steps {
                 echo '🔄 Checkout source code'
-                git branch: 'main', url: 'https://github.com/chanhtran235/demo-jenkin.git'
+                git branch: 'main', url: 'https://github.com/chanhtran235/project-ci-cd.git'
             }
         }
 
