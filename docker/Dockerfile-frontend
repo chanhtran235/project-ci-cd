@@ -1,16 +1,32 @@
-FROM node:18-alpine as build
+# Stage 1: Build React frontend
+FROM node:22-alpine as build
 
 WORKDIR /app
+
+# Copy package.json và package-lock.json
 COPY frontend/package*.json ./
+
+# Cài đặt dependencies
 RUN npm install
+
+# Copy toàn bộ source code frontend
 COPY frontend/ ./
 
+# Set biến môi trường từ Docker build args
 ARG VITE_API_URL
 ENV VITE_API_URL=$VITE_API_URL
 
+# Build frontend
 RUN npm run build
 
+# Stage 2: Serve với Nginx
 FROM nginx:alpine
+
+# Copy build từ stage trước sang Nginx
 COPY --from=build /app/dist /usr/share/nginx/html
+
+# Expose port
 EXPOSE 80
+
+# Command chạy Nginx
 CMD ["nginx", "-g", "daemon off;"]
