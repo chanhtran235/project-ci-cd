@@ -1,0 +1,70 @@
+{
+  "users": [
+    {
+      "username": "chanhtv",
+      "password": "123",
+      "role": "teacher"
+    },
+    {
+      "username": "thanhvv",
+      "password": "123",
+      "role": "student"
+    }
+  ],
+  "classes": [
+    {
+      "id": 2,
+      "name": "C07"
+    },
+    {
+      "id": 3,
+      "name": "C08"
+    },
+    {
+      "id": 4,
+      "name": "C09"
+    }
+  ],
+  "students": [
+    {
+      "id": 1,
+      "name": "chánh",
+      "classCG": {
+        "id": "1",
+        "name": "C07"
+      }
+    },
+    {
+      "id": 2,
+      "name": "tiến",
+      "classCG": {
+        "id": "1",
+        "name": "C07"
+      }
+    },
+    {
+      "id": 3,
+      "name": "hải",
+      "classCG": {
+        "id": "3",
+        "name": "C09"
+      }
+    },
+    {
+      "id": 6,
+      "name": "Chanh Van",
+      "classCG": {
+        "id": 3,
+        "name": "C08"
+      }
+    },
+    {
+      "name": "Tran Van Chanh",
+      "classCG": {
+        "id": 3,
+        "name": "C08"
+      },
+      "id": 7
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+DB_HOST=localhost
+DB_PORT=3306
+DB_NAME=demo_ci_cd
+DB_USER=root
+DB_PASSWORD=codegym
+SERVER_HOST=localhost
+SERVER_PORT=8080
