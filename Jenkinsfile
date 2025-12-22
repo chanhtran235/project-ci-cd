@@ -2,11 +2,12 @@ pipeline {
     agent any
 
     environment {
-        // Biến dùng cho Docker build frontend
+        // Biến dùng cho Docker build frontend (truyền vào Dockerfile)
         FRONTEND_API_URL = 'http://localhost:8080'
     }
 
     stages {
+
         stage('Checkout Source') {
             steps {
                 echo '🔄 Checkout source code'
@@ -23,24 +24,26 @@ pipeline {
             }
         }
 
-        stage('Build Frontend') {
-            steps {
-                echo '🏗️ Build React frontend'
-                dir('frontend') {
-                    bat 'npm install'
-                    bat "npm run build"
-                }
-            }
-        }
+        /*
+         ❌ BỎ HOÀN TOÀN stage Build Frontend
+         ❌ Không npm install
+         ❌ Không npm run build
+         👉 Frontend sẽ build trong Dockerfile
+        */
 
         stage('Docker Compose Build & Deploy') {
             steps {
                 echo '🐳 Build and deploy Docker containers'
-                // Build với ARG cho frontend
-                bat "docker-compose -f docker/docker-compose.yml build --build-arg VITE_API_URL=${env.FRONTEND_API_URL}"
+
+                // Build Docker images (frontend + backend)
+                bat """
+                    docker-compose -f docker/docker-compose.yml build ^
+                    --build-arg VITE_API_URL=${env.FRONTEND_API_URL}
+                """
+
                 // Restart services
-                bat "docker-compose -f docker/docker-compose.yml down"
-                bat "docker-compose -f docker/docker-compose.yml up -d"
+                bat 'docker-compose -f docker/docker-compose.yml down'
+                bat 'docker-compose -f docker/docker-compose.yml up -d'
             }
         }
     }
@@ -51,6 +54,14 @@ pipeline {
         }
         failure {
             echo '❌ CI/CD pipeline FAILED'
+        }
+        always {
+            // Xoá workspace Jenkins (C:)
+            cleanWs()
+
+            // Dọn Docker cache (E:)
+            bat 'docker image prune -f'
+            bat 'docker builder prune -f'
         }
     }
 }
