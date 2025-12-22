@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         // Biến dùng cho Docker build frontend
-        FRONTEND_API_URL = 'http://backend:8080'
+        FRONTEND_API_URL = 'http://localhost:8080'
     }
 
     stages {
